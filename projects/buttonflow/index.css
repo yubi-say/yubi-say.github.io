@@ -1,0 +1,69 @@
+/* ===== Basic page styles ===== */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  gap: 20px;
+  background-color: #f5f5f5;
+  font-family: 'Arial', sans-serif;
+}
+
+/* ===== Button container ===== */
+.button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;          /* circular button */
+  height: 60px;
+  border-radius: 50%;
+  background-color: white;
+  color: gray;
+  cursor: pointer;
+  overflow: hidden;
+  text-decoration: none;
+  transition: width 0.5s ease, border-radius 0.5s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* ===== Icon styles ===== */
+.button .material-icons {
+  font-size: 28px;
+  transition: transform 0.5s ease, opacity 0.3s ease;
+}
+
+/* ===== Text styles ===== */
+.button .button-text {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  font-weight: bold;
+  white-space: nowrap;
+  transition: opacity 0.3s ease, transform 0.5s ease;
+}
+
+/* ===== Hover effect: expand button ===== */
+.button:hover {
+  width: 160px;
+  border-radius: 30px;
+}
+
+/* ===== Liquid icon hide effect ===== */
+.button:hover .material-icons {
+  transform: translateY(-50px) scale(0.5); /* float upwards and shrink */
+  opacity: 0;
+}
+
+/* ===== Text appear effect ===== */
+.button:hover .button-text {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0); /* appear in center */
+}
+
+
+
+
+
+.AI{background: rgb(242, 13, 109);color:white}
