@@ -9,6 +9,26 @@
   <!-- Link CSS externo -->
   <link rel="stylesheet" href="index.css">
 </head>
+<script>
+  function sendHeight() {
+    const height = document.documentElement.scrollHeight;
+    parent.postMessage(
+      {
+        type: "resize-iframe",
+        height: height,
+        src: window.location.pathname
+      },
+      "*"
+    );
+  }
+
+  window.addEventListener("load", sendHeight);
+  window.addEventListener("resize", sendHeight);
+</script>
+
+
+
+  
 <body>
 
   <div>Made using AI tech</div>
