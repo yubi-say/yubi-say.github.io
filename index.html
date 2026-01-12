@@ -8,6 +8,23 @@
   <link rel="stylesheet" href="css/projects.css">
 </head>
 
+<script>
+  window.addEventListener("message", (event) => {
+    if (!event.data || !event.data.type) return;
+
+    if (event.data.type === "resize-iframe") {
+      const iframe = document.querySelector(
+        `iframe[src="${event.data.src}"]`
+      );
+      if (iframe) {
+        iframe.style.height = event.data.height + "px";
+      }
+    }
+  });
+</script>
+
+
+  
 <body>
 
   <header class="page-header">
