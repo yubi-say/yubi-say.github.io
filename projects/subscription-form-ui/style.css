@@ -1,0 +1,267 @@
+/* ==========================
+   Background Canvas
+   ========================== */
+#particle-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: linear-gradient(135deg, #8C99C8 30%, #FFE8CC 100%);
+}
+
+/* ==========================
+   Base
+   ========================== */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.subscription {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+
+/* ==========================
+   Card + color states
+   ========================== */
+.subscription-card {
+  max-width: 420px;
+  max-height: 390px;
+  width: 100%;
+  padding: 48px 24px;
+  border-radius: 20px;
+  text-align: center;
+  color: #7870B0; /* color inicial */
+  background: rgba(162,170,219,0.8);
+  backdrop-filter: blur(10px);
+  transition: background 0.5s ease, color 0.5s ease;
+  box-shadow: 0 40px 80px rgba(0,0,0,.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border: 1px solid rgba(200,200,255,0.3); /* borde sutil */
+}
+
+/* Estados del card */
+.subscription-card[data-card="idle"] {
+  color: #7870B0; /* inicio */
+  background: linear-gradient(135deg, #A2AADB, #FFF2E0);
+}
+
+.subscription-card[data-card="active"] {
+  color: #FFFFFF; /* al hacer click Subscribe */
+  background: linear-gradient(135deg, #898AC4, #B2B3F0);
+}
+
+.subscription-card[data-card="success"] {
+  color: #7870B0; /* al enviar */
+  background: linear-gradient(135deg, #C0C9EE, #F5F6FF);
+}
+
+.subscription-card h2,
+.subscription-card p.subscription-text {
+  transition: color 0.5s ease, opacity 0.4s ease;
+  margin-top: 0!important;
+}
+
+p.subscription-text {
+  margin-bottom: 40px;
+}
+
+/* ==========================
+   Container
+   ========================== */
+.subscription-container{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 190px;
+  /* clave: área estable para los 3 pasos */
+  min-height:2px;
+}
+/* ==========================
+   Shared states
+   ========================== */
+.subscribe-btn,
+.subscription-form,
+.subscription-confirmation {
+  position: absolute;
+  opacity: 0;
+  transform: scale(.85);
+  pointer-events: none;
+  transition: all .45s ease;
+}
+
+.is-active {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+/* ==========================
+   Subscribe button
+   ========================== */
+.subscribe-btn {
+  padding: 16px 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(200,200,255,0.5); /* borde sutil */
+  background: #FFF2E0;
+  color: #898AC4;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 12px rgba(0,0,0,0.15), 0 0 0 0 rgba(192,201,238,0.6);
+  animation: float 3s ease-in-out infinite;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease, border 0.3s ease;
+}
+
+.subscribe-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 16px 24px rgba(0,0,0,0.2), 0 0 20px rgba(192,201,238,0.5);
+}
+
+/* ==========================
+   Float animation
+   ========================== */
+@keyframes float {
+  0%   { transform: translateY(0);   box-shadow: 0 8px 12px rgba(0,0,0,0.15); }
+  50%  { transform: translateY(-6px); box-shadow: 0 12px 18px rgba(0,0,0,0.15); }
+  100% { transform: translateY(0);   box-shadow: 0 8px 12px rgba(0,0,0,0.15); }
+}
+
+/* ==========================
+   Form
+   ========================== */
+.subscription-form {
+  display: flex;
+  gap: 10px;
+}
+
+.subscription-form input {
+  padding: 14px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(200,200,255,0.5); /* borde sutil */
+  background: #FFF2E0;
+  color: #898AC4;
+  min-width: 200px;
+  transition: all 0.3s ease;
+}
+
+.subscription-form input:focus {
+  outline: none;
+  box-shadow: 0 0 12px rgba(192,201,238,0.6);
+  transform: scale(1.02);
+}
+
+.subscription-form button {
+  padding: 14px 26px;
+  border-radius: 999px;
+  border: 1px solid rgba(200,200,255,0.5); /* borde sutil */
+  background: #C0C9EE;
+  color: #898AC4;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.2s ease, border 0.3s ease;
+}
+
+.subscription-form button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15), 0 0 15px rgba(192,201,238,0.4);
+}
+
+/* ==========================
+   Confirmation
+   ========================== */
+.subscription-confirmation {
+  position: relative;
+  text-align: center;
+  padding: 20px;
+  color: #7870B0; /* texto oscuro pastel */
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.success-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 12px;
+  color: #898AC4;
+  text-shadow: 0 0 8px rgba(192,201,238,0.7);
+  animation: bounce 1s ease forwards, glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes bounce {
+  0%   { transform: translateY(0); }
+  30%  { transform: translateY(-6px); }
+  50%  { transform: translateY(0); }
+  70%  { transform: translateY(-3px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 8px rgba(192,201,238,0.5); }
+  to   { text-shadow: 0 0 20px rgba(192,201,238,1); }
+}
+
+/* ==========================
+   Hide content helper
+   ========================== */
+.hide-content {
+  opacity: 0 !important;
+  display: none !important;
+}
+
+/* ==========================
+   Responsive
+   ========================== */
+@media (max-width: 500px) {
+  .subscription-card {
+    padding: 36px 16px;
+  }
+
+  .subscription-form {
+    flex-direction: column;
+  }
+
+  .subscription-form input,
+  .subscription-form button {
+    width: 100%;
+  }
+}
+.reset-btn{
+  display: block;
+  width: fit-content;
+  margin: 12px auto 0;
+  background: none;
+  border: 0;
+  padding: 10px;
+  text-align: center;
+  text-decoration: underline;
+  color: #7870B0;
+  cursor: pointer;
+
+  /* NEW: hidden by default */
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-2px);
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+.reset-btn.is-visible{
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
