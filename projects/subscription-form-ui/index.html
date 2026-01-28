@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Subscription Form Futuristic</title>
+	<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+	<canvas id="particle-bg"></canvas>
+
+	<section class="subscription" aria-labelledby="subscription-title">
+		<div class="subscription-wrapper">
+
+			<div class="subscription-card" data-card="idle">
+				<h2 id="subscription-title" style="font-family: 'Pacifico', cursive;font-size:3em;">
+					Stay in the loop
+				</h2>
+				<p class="subscription-text">
+					Subscribe to receive updates, insights and curated content.
+				</p>
+
+				<div class="subscription-container" data-state="idle">
+					<button class="subscribe-btn is-active">Subscribe</button>
+
+					<form class="subscription-form">
+						<input type="email" placeholder="you@example.com" required />
+						<button type="submit">Send</button>
+					</form>
+
+					<div class="subscription-confirmation"></div>
+				</div>
+			</div>
+
+			<!-- Reset -->
+			<button class="reset-btn" aria-label="Reset form">Reset</button>
+
+		</div>
+	</section>
+
+	<script src="script.js"></script>
+</body>
+
+</html>
