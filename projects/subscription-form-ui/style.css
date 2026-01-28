@@ -21,11 +21,11 @@ body, html {
 }
 
 .subscription {
-  min-height: 100vh;
+  min-height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 24px;
+  padding:50px;
 }
 
 /* ==========================
