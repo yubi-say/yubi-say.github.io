@@ -1,0 +1,303 @@
+/* style.css */
+:root{
+  --bg: #e9e9ea;
+  --ink: #2b2b2d;
+  --muted: rgba(43,43,45,.55);
+  --white: #ffffff;
+
+  /* Desktop target sizes */
+  --activeW: 245px;
+  --activeH: 305px;
+  --sideW: 165px;
+  --sideH: 205px;
+
+  /* spacing */
+  --gap: 28px;
+  --radius: 26px;
+  --border: 5px;
+
+  /* depth */
+  --farShift: 240px;
+}
+
+*{ box-sizing: border-box; }
+html,body{ height: 100%; }
+
+body{
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.page{
+  min-height: 100%;
+  padding: clamp(18px, 3.5vw, 34px);
+  display: grid;
+  align-content: start;
+  gap: clamp(18px, 3vw, 28px);
+}
+
+/* ─── Top bar ───────────────────────────────────────── */
+.topbar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: clamp(10px, 1.2vw, 14px);
+}
+
+.topbar__left{
+  display: flex;
+  align-items: center;
+  width: min(520px, 58vw);
+}
+
+.topbar__rule{
+  height: 1px;
+  width: 100%;
+  background: rgba(0,0,0,.16);
+}
+
+.topbar__right{
+  font-size: 16px;
+  letter-spacing: .6px;
+  color: rgba(0,0,0,.55);
+}
+
+/* ─── Layout ────────────────────────────────────────── */
+.module{
+  display: grid;
+  justify-items: center;
+}
+
+.carouselShell{
+  width: min(980px, 96vw);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 18px;
+}
+
+/* ─── Navigation arrows (outside carousel) ─────────── */
+.navBtn{
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,.10);
+  background: rgba(255,255,255,.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: rgba(0,0,0,.55);
+  transition: transform .18s ease, background .18s ease, border-color .18s ease;
+  user-select: none;
+}
+.navBtn span{
+  font-size: 30px;
+  line-height: 1;
+}
+.navBtn:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,.72);
+}
+.navBtn:active{
+  transform: translateY(0) scale(.98);
+}
+
+/* ─── Carousel ─────────────────────────────────────── */
+.carousel{
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+}
+
+.stage{
+  width: 100%;
+  height: 340px;
+  position: relative;
+  overflow: visible;
+  display: grid;
+  place-items: center;
+  touch-action: pan-y;
+
+  perspective: 1100px;
+  transform-style: preserve-3d;
+}
+
+/* ─── Card base ────────────────────────────────────── */
+.card{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: var(--radius);
+  border: var(--border) solid var(--white);
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity, filter;
+  box-shadow:
+    0 14px 34px rgba(0,0,0,.10),
+    0 2px 8px rgba(0,0,0,.08);
+  transition:
+    transform 700ms cubic-bezier(.22,.9,.28,1),
+    opacity 700ms cubic-bezier(.22,.9,.28,1),
+    filter 700ms cubic-bezier(.22,.9,.28,1);
+}
+
+.card__bg{
+  position: absolute;
+  inset: 0;
+  transform: scale(1.02);
+  background:
+    radial-gradient(120% 140% at 10% 25%, rgba(255,255,255,.38) 0%, rgba(255,255,255,0) 40%),
+    radial-gradient(120% 160% at 70% 55%, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 45%),
+    var(--img);
+  background-size: cover;
+  background-position: center;
+}
+
+.card__vignette{
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(90% 80% at 50% 40%, rgba(0,0,0,0) 0%, rgba(0,0,0,.08) 65%, rgba(0,0,0,.14) 100%);
+  opacity: .55;
+}
+
+.card__label{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 54%;
+  transform: translateY(-50%);
+  text-align: center;
+  color: rgba(255,255,255,.92);
+  letter-spacing: .8px;
+  text-transform: lowercase;
+  text-shadow:
+    0 14px 26px rgba(0,0,0,.18),
+    0 2px 6px rgba(0,0,0,.18);
+  pointer-events: none;
+}
+
+/* ─── 3D circular positions ───────────────────────── */
+.pos-active{
+  width: var(--activeW);
+  height: var(--activeH);
+  z-index: 5;
+  opacity: 1;
+  filter: blur(0);
+  transform:
+    translate(-50%, -50%)
+    translateZ(140px)
+    rotateY(0deg);
+}
+
+.pos-left1{
+  width: var(--sideW);
+  height: var(--sideH);
+  z-index: 4;
+  opacity: .96;
+  filter: blur(.3px);
+  transform:
+    translate(-50%, -50%)
+    translateX(calc(-1 * ((var(--activeW)/2) + (var(--sideW)/2) + var(--gap))))
+    translateZ(40px)
+    rotateY(14deg);
+}
+
+.pos-right1{
+  width: var(--sideW);
+  height: var(--sideH);
+  z-index: 4;
+  opacity: .96;
+  filter: blur(.3px);
+  transform:
+    translate(-50%, -50%)
+    translateX(calc((var(--activeW)/2) + (var(--sideW)/2) + var(--gap)))
+    translateZ(40px)
+    rotateY(-14deg);
+}
+
+.pos-left2{
+  width: var(--sideW);
+  height: var(--sideH);
+  z-index: 2;
+  opacity: .1;
+  filter: blur(4.5px);
+  pointer-events: none;
+  transform:
+    translate(-50%, -50%)
+    translateX(calc(-1 * ((var(--activeW)/2) + (var(--sideW)/2) + var(--gap) + var(--farShift))))
+    translateZ(-90px)
+    rotateY(24deg);
+}
+
+.pos-right2{
+  width: var(--sideW);
+  height: var(--sideH);
+  z-index: 2;
+  opacity: .1;
+  filter: blur(4.5px);
+  pointer-events: none;
+  transform:
+    translate(-50%, -50%)
+    translateX(calc((var(--activeW)/2) + (var(--sideW)/2) + var(--gap) + var(--farShift)))
+    translateZ(-90px)
+    rotateY(-24deg);
+}
+
+/* ─── Pagination dots ─────────────────────────────── */
+.pager{
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.dot{
+  width: 12px;
+  height: 4px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(0,0,0,.22);
+  cursor: pointer;
+}
+.dot[aria-selected="true"]{
+  width: 26px;
+  background: rgba(0,0,0,.55);
+}
+
+/* ─── Responsive ──────────────────────────────────── */
+@media (max-width: 760px){
+  :root{
+    --activeW: min(78vw, 320px);
+    --activeH: calc(var(--activeW) * 1.245);
+    --sideW: min(54vw, 240px);
+    --sideH: calc(var(--sideW) * 1.242);
+    --gap: 16px;
+    --farShift: 180px;
+  }
+
+  .carouselShell{
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .navBtn--left{ justify-self: start; }
+  .navBtn--right{ justify-self: end; }
+
+  .stage{
+    height: calc(var(--activeH) + 46px);
+  }
+
+  .card__label{
+    font-size: clamp(14px, 8vw, 25px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .card, .navBtn, .dot{ transition: none !important; }
+}
