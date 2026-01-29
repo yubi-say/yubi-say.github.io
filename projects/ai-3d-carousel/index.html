@@ -1,0 +1,45 @@
+<!-- index.html -->
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Theme Carousel – AI Web Module</title>
+	<link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+	<main class="page">
+		<header class="topbar" aria-label="Module header">
+			<div class="topbar__left">
+				<span class="topbar__rule" aria-hidden="true"></span>
+			</div>
+			<div class="topbar__right" aria-label="Date">[ ...  ]</div>
+		</header>
+
+		<section class="module" aria-label="Theme carousel module">
+			<div class="carouselShell">
+				<button class="navBtn navBtn--left" type="button" aria-label="Previous theme">
+          <span aria-hidden="true">‹</span>
+        </button>
+
+				<div class="carousel" role="region" aria-roledescription="carousel" aria-label="Theme cards">
+					<div class="stage" aria-live="polite"></div>
+
+					<div class="pager" role="tablist" aria-label="Carousel pagination">
+						<!-- dots injected by JS -->
+					</div>
+				</div>
+
+				<button class="navBtn navBtn--right" type="button" aria-label="Next theme">
+          <span aria-hidden="true">›</span>
+        </button>
+			</div>
+		</section>
+	</main>
+
+	<script src="script.js"></script>
+</body>
+
+</html>
