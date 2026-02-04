@@ -1,0 +1,78 @@
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Café Wall Illusion — Interactive</title>
+	<link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+	<main class="app">
+		<header class="topbar">
+			<div>
+				<h1>Café Wall Illusion</h1>
+				<p>Horizontal lines are straight — but they look tilted.</p>
+			</div>
+
+			<div class="actions">
+				<button id="burst" class="btn">Color burst</button>
+				<button id="random" class="btn">Subtle randomize</button>
+				<button id="reset" class="btn btn-ghost">Reset</button>
+			</div>
+		</header>
+
+		<section class="layout">
+			<section class="stage" aria-label="Illusion canvas">
+				<canvas id="c"></canvas>
+			</section>
+
+			<aside class="panel" aria-label="Controls">
+				<div class="row">
+					<label class="label">Tile width <span class="value" id="tileWVal"></span></label>
+					<input id="tileW" class="range" type="range" min="20" max="140" value="72" />
+        </div>
+
+					<div class="row">
+						<label class="label">Tile height <span class="value" id="tileHVal"></span></label>
+						<input id="tileH" class="range" type="range" min="10" max="90" value="34" />
+        </div>
+
+						<div class="row">
+							<label class="label">Row offset <span class="value" id="offsetVal"></span></label>
+							<input id="offset" class="range" type="range" min="0" max="140" value="36" />
+        </div>
+
+							<div class="row">
+								<label class="label">Mortar thickness <span class="value" id="mortarVal"></span></label>
+								<input id="mortar" class="range" type="range" min="0" max="12" value="3" />
+        </div>
+
+								<div class="row">
+									<label class="label">Mortar gray <span class="value" id="mortarGrayVal"></span></label>
+									<input id="mortarGray" class="range" type="range" min="140" max="245" value="205" />
+        </div>
+
+									<div class="row">
+										<label class="label">Brick contrast <span class="value" id="contrastVal"></span></label>
+										<input id="contrast" class="range" type="range" min="0.4" max="1" step="0.01" value="0.92" />
+        </div>
+
+										<label class="toggle">
+          <input id="invert" type="checkbox" />
+          <span class="toggle-ui" aria-hidden="true"></span>
+          Invert bricks
+        </label>
+
+										<p class="hint">
+											Tip: mortar thickness 2–4px and mid-gray mortar tends to look best.
+										</p>
+			</aside>
+		</section>
+	</main>
+
+	<script src="app.js"></script>
+</body>
+
+</html>
