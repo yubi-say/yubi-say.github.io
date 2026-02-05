@@ -93,6 +93,8 @@ input[type="range"]::-moz-range-thumb{
 /* FRAME */
 .frame{
   width:100%;
+  margin:0 auto;
+  max-width: 600px; 
   aspect-ratio:1/1;
   border-radius:18px;
   border:1px solid rgba(255,255,255,.10);
