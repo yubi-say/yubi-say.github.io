@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Radial Depth Illusion — Interactive (Option A)</title>
+
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+	<div class="wrap">
+		<div class="top">
+			<div class="title">
+				<strong>Radial Depth Illusion</strong>
+				<span>Option A: el punto de fuga sigue al cursor (mouse / touch).</span>
+			</div>
+
+			<div class="control">
+				<label for="depth">Depth</label>
+				<!-- RANGO MÁS GRANDE para que el cambio sea evidente -->
+				<input id="depth" type="range" min="0.50" max="4.00" step="0.01" value="1.30">
+				<span id="depthVal">1.30×</span>
+			</div>
+		</div>
+
+		<div class="frame" id="frame" aria-label="Interactive illusion frame">
+			<div class="grid" id="grid"></div>
+		</div>
+	</div>
+
+	<script src="script.js"></script>
+</body>
+
+</html>
