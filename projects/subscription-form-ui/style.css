@@ -59,6 +59,12 @@ body, html {
   box-sizing: border-box;
 }
 
+-subscription-title{
+    font-size: 2.8em;
+    line-height: 1.4em;
+    margin: 10px;
+}
+
 .subscription-card[data-card="idle"] {
   color: #7870B0;
   background: linear-gradient(135deg, #A2AADB, #FFF2E0);
