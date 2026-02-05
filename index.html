@@ -4,111 +4,124 @@
   <meta charset="UTF-8">
   <title>AI Web Projects – Yubi Say</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link rel="stylesheet" href="css/projects.css">
 </head>
-
-<script>
-  window.addEventListener("message", (event) => {
-    if (!event.data || !event.data.type) return;
-
-    if (event.data.type === "resize-iframe") {
-      const iframe = document.querySelector(
-        `iframe[src="${event.data.src}"]`
-      );
-      if (iframe) {
-        iframe.style.height = event.data.height + "px";
-      }
-    }
-  });
-</script>
 
 <body>
 
   <header class="page-header">
     <h1>AI Web Projects</h1>
-    <p>
-      Web experiments built with AI.
-    
-    </p>
+    <p>Web experiments built with AI.</p>
   </header>
 
   <main class="projects">
 
-
-
     <section class="project-card">
-  <div class="project-preview">
-    <iframe 
-      src="https://v0-interactive-star-map-silk.vercel.app"
-      loading="lazy"
-      title="Sky"
-      style="height:500px; overflow:hidden;">
-    </iframe>
-  </div>
-</section>
-
-     <section class="project-card">
-  <div class="project-preview">
-    <iframe 
-      src="projects/depth-illusion"
-      loading="lazy"
-      title="depth illusion"
-      style="height:900px; overflow:hidden;">
-    </iframe>
-  </div>
-</section>
-
-    <section class="project-card">
-  <div class="project-preview">
-    <iframe 
-      src="projects/wall-illusion"
-      loading="lazy"
-      title="wall illusion"
-      style="height:800px; overflow:hidden;">
-    </iframe>
-  </div>
-</section>
-
-
-    <section class="project-card">
-  <div class="project-preview">
-    <iframe 
-      src="projects/ai-3d-carousel/"
-      loading="lazy"
-      title="AI 3D Carousel"
-      style="height:500px; overflow:hidden;">
-    </iframe>
-  </div>
-</section>
-
-    
+      <div class="project-preview">
+        <iframe
+          src="https://v0-interactive-star-map-silk.vercel.app"
+          loading="lazy"
+          title="Sky"
+          style="--h-desktop: 500px;"
+        ></iframe>
+      </div>
+    </section>
 
     <section class="project-card">
       <div class="project-preview">
-        <iframe 
+        <iframe
+          src="projects/depth-illusion"
+          loading="lazy"
+          title="depth illusion"
+          style="--h-desktop: 900px;"
+        ></iframe>
+      </div>
+    </section>
+
+    <section class="project-card">
+      <div class="project-preview">
+        <iframe
+          src="projects/wall-illusion"
+          loading="lazy"
+          title="wall illusion"
+          style="--h-desktop: 800px;"
+        ></iframe>
+      </div>
+    </section>
+
+    <section class="project-card">
+      <div class="project-preview">
+        <iframe
+          src="projects/ai-3d-carousel/"
+          loading="lazy"
+          title="AI 3D Carousel"
+          style="--h-desktop: 500px;"
+        ></iframe>
+      </div>
+    </section>
+
+    <section class="project-card">
+      <div class="project-preview">
+        <iframe
           src="projects/subscription-form-ui/"
           loading="lazy"
-          title="Subscription Form UI" style="height:500px;overflow:hidden">
-        </iframe>
+          title="Subscription Form UI"
+          style="--h-desktop: 500px;"
+        ></iframe>
       </div>
     </section>
 
-    <!-- PROJECT -->
     <section class="project-card">
       <div class="project-preview">
-        <iframe 
+        <iframe
           src="projects/buttonflow/"
           loading="lazy"
-          title="Button Flow">
-        </iframe>
+          title="Button Flow"
+          style="--h-desktop: 260px;"
+        ></iframe>
       </div>
     </section>
-
-   
 
   </main>
 
+  <script>
+    function setIframeHeight(iframe, px) {
+      if (!iframe) return;
+
+      const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+      if (isMobile) {
+        const maxPx = Math.floor(window.innerHeight * 0.85);
+        iframe.style.height = Math.min(px, maxPx) + "px";
+      } else {
+        iframe.style.height = px + "px";
+      }
+    }
+
+    window.addEventListener("message", (event) => {
+      if (!event.data || event.data.type !== "resize-iframe") return;
+
+      const src = event.data.src;
+      const height = Number(event.data.height);
+
+      if (!src || !Number.isFinite(height) || height <= 0) return;
+
+      const iframe = document.querySelector(`iframe[src="${src}"]`);
+      if (!iframe) return;
+
+      setIframeHeight(iframe, height);
+    });
+
+    window.addEventListener("resize", () => {
+      document.querySelectorAll(".project-preview iframe").forEach((iframe) => {
+        const h = getComputedStyle(iframe).getPropertyValue("--h-desktop").trim();
+        const px = parseInt(h, 10);
+        if (Number.isFinite(px)) setIframeHeight(iframe, px);
+      });
+    });
+  </script>
+
 </body>
 </html>
+
 
