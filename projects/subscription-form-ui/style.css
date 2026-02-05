@@ -20,12 +20,19 @@ body, html {
   font-family: system-ui, -apple-system, sans-serif;
 }
 
+/* ==========================
+   Subscription layout
+   ========================== */
 .subscription {
   min-height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding:50px;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 50px;
 }
 
 /* ==========================
@@ -38,7 +45,7 @@ body, html {
   padding: 48px 24px;
   border-radius: 20px;
   text-align: center;
-  color: #7870B0; /* color inicial */
+  color: #7870B0;
   background: rgba(162,170,219,0.8);
   backdrop-filter: blur(10px);
   transition: background 0.5s ease, color 0.5s ease;
@@ -48,29 +55,29 @@ body, html {
   justify-content: center;
   align-items: center;
   position: relative;
-  border: 1px solid rgba(200,200,255,0.3); /* borde sutil */
+  border: 1px solid rgba(200,200,255,0.3);
+  box-sizing: border-box;
 }
 
-/* Estados del card */
 .subscription-card[data-card="idle"] {
-  color: #7870B0; /* inicio */
+  color: #7870B0;
   background: linear-gradient(135deg, #A2AADB, #FFF2E0);
 }
 
 .subscription-card[data-card="active"] {
-  color: #FFFFFF; /* al hacer click Subscribe */
+  color: #FFFFFF;
   background: linear-gradient(135deg, #898AC4, #B2B3F0);
 }
 
 .subscription-card[data-card="success"] {
-  color: #7870B0; /* al enviar */
+  color: #7870B0;
   background: linear-gradient(135deg, #C0C9EE, #F5F6FF);
 }
 
 .subscription-card h2,
 .subscription-card p.subscription-text {
   transition: color 0.5s ease, opacity 0.4s ease;
-  margin-top: 0!important;
+  margin-top: 0 !important;
 }
 
 p.subscription-text {
@@ -80,15 +87,21 @@ p.subscription-text {
 /* ==========================
    Container
    ========================== */
-.subscription-container{
+.subscription-container {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  width: 100%;
+  max-width: 100%;
+
   max-height: 190px;
-  /* clave: área estable para los 3 pasos */
-  min-height:2px;
+  min-height: 2px;
+
+  box-sizing: border-box;
 }
+
 /* ==========================
    Shared states
    ========================== */
@@ -114,28 +127,27 @@ p.subscription-text {
 .subscribe-btn {
   padding: 16px 36px;
   border-radius: 999px;
-  border: 1px solid rgba(200,200,255,0.5); /* borde sutil */
+  border: 1px solid rgba(200,200,255,0.5);
   background: #FFF2E0;
   color: #898AC4;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 8px 12px rgba(0,0,0,0.15), 0 0 0 0 rgba(192,201,238,0.6);
+  box-shadow: 0 8px 12px rgba(0,0,0,0.15);
   animation: float 3s ease-in-out infinite;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease, border 0.3s ease;
 }
 
 .subscribe-btn:hover {
   transform: scale(1.08);
-  box-shadow: 0 16px 24px rgba(0,0,0,0.2), 0 0 20px rgba(192,201,238,0.5);
+  box-shadow: 0 16px 24px rgba(0,0,0,0.2);
 }
 
 /* ==========================
    Float animation
    ========================== */
 @keyframes float {
-  0%   { transform: translateY(0);   box-shadow: 0 8px 12px rgba(0,0,0,0.15); }
-  50%  { transform: translateY(-6px); box-shadow: 0 12px 18px rgba(0,0,0,0.15); }
-  100% { transform: translateY(0);   box-shadow: 0 8px 12px rgba(0,0,0,0.15); }
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
 }
 
 /* ==========================
@@ -144,16 +156,26 @@ p.subscription-text {
 .subscription-form {
   display: flex;
   gap: 10px;
+
+  width: 100%;
+  max-width: 360px;
+
+  justify-content: center;
+  box-sizing: border-box;
 }
 
 .subscription-form input {
   padding: 14px 18px;
   border-radius: 999px;
-  border: 1px solid rgba(200,200,255,0.5); /* borde sutil */
+  border: 1px solid rgba(200,200,255,0.5);
   background: #FFF2E0;
   color: #898AC4;
+
   min-width: 200px;
+  max-width: 100%;
+
   transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
 .subscription-form input:focus {
@@ -165,17 +187,18 @@ p.subscription-text {
 .subscription-form button {
   padding: 14px 26px;
   border-radius: 999px;
-  border: 1px solid rgba(200,200,255,0.5); /* borde sutil */
+  border: 1px solid rgba(200,200,255,0.5);
   background: #C0C9EE;
   color: #898AC4;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.2s ease, border 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
 }
 
 .subscription-form button:hover {
   transform: scale(1.05);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.15), 0 0 15px rgba(192,201,238,0.4);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
 }
 
 /* ==========================
@@ -185,12 +208,14 @@ p.subscription-text {
   position: relative;
   text-align: center;
   padding: 20px;
-  color: #7870B0; /* texto oscuro pastel */
+  color: #7870B0;
   font-weight: 500;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .success-icon {
@@ -198,21 +223,13 @@ p.subscription-text {
   display: block;
   margin-bottom: 12px;
   color: #898AC4;
-  text-shadow: 0 0 8px rgba(192,201,238,0.7);
-  animation: bounce 1s ease forwards, glow 1.5s ease-in-out infinite alternate;
+  animation: bounce 1s ease forwards;
 }
 
 @keyframes bounce {
   0%   { transform: translateY(0); }
-  30%  { transform: translateY(-6px); }
-  50%  { transform: translateY(0); }
-  70%  { transform: translateY(-3px); }
+  50%  { transform: translateY(-6px); }
   100% { transform: translateY(0); }
-}
-
-@keyframes glow {
-  from { text-shadow: 0 0 8px rgba(192,201,238,0.5); }
-  to   { text-shadow: 0 0 20px rgba(192,201,238,1); }
 }
 
 /* ==========================
@@ -227,20 +244,34 @@ p.subscription-text {
    Responsive
    ========================== */
 @media (max-width: 500px) {
+  .subscription {
+    padding: 24px;
+  }
+
   .subscription-card {
     padding: 36px 16px;
+    margin: 0 auto;
   }
 
   .subscription-form {
     flex-direction: column;
+    max-width: 100%;
   }
 
-  .subscription-form input,
+  .subscription-form input {
+    width: 100%;
+    min-width: 0;
+  }
+
   .subscription-form button {
     width: 100%;
   }
 }
-.reset-btn{
+
+/* ==========================
+   Reset button
+   ========================== */
+.reset-btn {
   display: block;
   width: fit-content;
   margin: 12px auto 0;
@@ -252,16 +283,16 @@ p.subscription-text {
   color: #7870B0;
   cursor: pointer;
 
-  /* NEW: hidden by default */
   opacity: 0;
   pointer-events: none;
   transform: translateY(-2px);
   transition: opacity .2s ease, transform .2s ease;
 }
 
-.reset-btn.is-visible{
+.reset-btn.is-visible {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
 }
+
 
