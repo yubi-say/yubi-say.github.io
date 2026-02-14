@@ -8,7 +8,7 @@
     html, body { height: 100%; margin: 0; background: #f6f6f6; }
     canvas { display: block; width: 100vw; height: 100vh; }
 
-    /* Editorial title — bigger + responsive */
+    /* Editorial title — responsive */
     .title {
       position: fixed;
       left: clamp(14px, 2.2vw, 28px);
@@ -30,7 +30,6 @@
       align-items: center;
       gap: clamp(10px, 1.2vw, 16px);
     }
-
     .title .dot {
       width:  clamp(8px, 1.0vw, 14px);
       height: clamp(8px, 1.0vw, 14px);
@@ -58,7 +57,7 @@
 
     .row {
       display: grid;
-      grid-template-columns: 56px 210px 44px;
+      grid-template-columns: 56px 210px 56px;
       gap: 10px;
       align-items: center;
       margin: 10px 0;
@@ -103,7 +102,7 @@
       border: 0;
     }
 
-    .buttons { display: flex; gap: 10px; margin-top: 8px; }
+    .buttons { display: flex; gap: 14px; margin-top: 8px; }
     button{
       appearance: none;
       border: 0;
@@ -117,9 +116,8 @@
     }
     button:hover { color: rgba(0,0,0,0.78); border-bottom-color: rgba(0,0,0,0.30); }
 
-    /* Responsive: shrink control widths on very small screens */
     @media (max-width: 420px) {
-      .row { grid-template-columns: 56px 160px 44px; }
+      .row { grid-template-columns: 56px 160px 56px; }
       input[type="range"]{ width: 160px; }
     }
   </style>
@@ -145,6 +143,11 @@
     <input id="speed" type="range" min="0" max="1.8" step="0.02" value="0.90" />
     <div class="val" id="speedVal"></div>
   </div>
+  <div class="row">
+    <div class="label">Ball</div>
+    <input id="ball" type="range" min="0.60" max="1.60" step="0.02" value="1.00" />
+    <div class="val" id="ballVal"></div>
+  </div>
 
   <div class="buttons">
     <button id="pauseBtn">Pause</button>
@@ -161,9 +164,13 @@
   const uiWidth = document.getElementById("width");
   const uiTwist = document.getElementById("twist");
   const uiSpeed = document.getElementById("speed");
+  const uiBall  = document.getElementById("ball");
+
   const widthVal = document.getElementById("widthVal");
   const twistVal = document.getElementById("twistVal");
   const speedVal = document.getElementById("speedVal");
+  const ballVal  = document.getElementById("ballVal");
+
   const pauseBtn = document.getElementById("pauseBtn");
   const resetBtn = document.getElementById("resetBtn");
 
@@ -186,7 +193,6 @@
   const dtN = 0.004;
   const dvN = 0.02;
 
-  const ballRadiusPx = 7.5;
   const ballTrackOffsetV = 0.0;
 
   const SNAP_POINTS = [0, 0.5, 1];
@@ -302,18 +308,34 @@
     return mix(x, best, strength);
   }
 
+  function defaultBallRadiusPx(W, H){
+    const s = Math.min(W, H);
+    // ✅ proportional default: clamp(8px, 1.2% of short side, 16px)
+    return clamp(s * 0.012, 8, 16);
+  }
+
   function updateUI(){
     widthVal.textContent = (+uiWidth.value).toFixed(2);
     twistVal.textContent = (+uiTwist.value).toFixed(2);
     speedVal.textContent = (+uiSpeed.value).toFixed(2);
+
+    // display ball size in px (computed from viewport)
+    const W = window.innerWidth, H = window.innerHeight;
+    const basePx = defaultBallRadiusPx(W, H);
+    const px = basePx * (+uiBall.value);
+    ballVal.textContent = `${px.toFixed(0)}px`;
+
     pauseBtn.textContent = paused ? "Play" : "Pause";
   }
-  uiWidth.addEventListener("input", () => { updateUI(); showUI(); });
-  uiTwist.addEventListener("input", () => { updateUI(); showUI(); });
-  uiSpeed.addEventListener("input", () => { updateUI(); showUI(); });
+
+  [uiWidth, uiTwist, uiSpeed, uiBall].forEach(el => {
+    el.addEventListener("input", () => { updateUI(); showUI(); });
+  });
 
   pauseBtn.addEventListener("click", () => { paused = !paused; updateUI(); showUI(); });
   resetBtn.addEventListener("click", () => { tTime = 0; showUI(); });
+
+  window.addEventListener("resize", updateUI);
   updateUI();
 
   function draw() {
@@ -330,6 +352,9 @@
     const ribbonHalfWidth = +uiWidth.value;
     const twistTurns = snapTwist(+uiTwist.value);
     const speed = +uiSpeed.value;
+
+    // ball radius responsive default * multiplier
+    const ballRadiusPx = defaultBallRadiusPx(W, H) * (+uiBall.value);
 
     const yaw = tTime * (0.60 * speed);
 
@@ -361,6 +386,7 @@
       items.push({ kind: "quad", z: zAvg, ndotl, a,b,c,d });
     }
 
+    // Ball on centerline
     const tBall = (tTime * (0.95 * speed)) % (Math.PI * 2);
     const pBall3 = ribbonPoint(tBall, ballTrackOffsetV, twistTurns);
     const pBall = project(pBall3, yaw, scale, cx, cy);
@@ -431,3 +457,4 @@
 </script>
 </body>
 </html>
+
