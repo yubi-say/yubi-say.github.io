@@ -1,141 +1,122 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width,initial-scale=1" />
-	<title>Peristaltic Portals</title>
-	<style>
-		:root {
-			--bg: #07080c;
-			--ink: rgba(233, 236, 255, .94);
-			--muted: rgba(233, 236, 255, .62);
-		}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Peristaltic Portals</title>
+  <style>
+    :root{
+      --bg:#07080c;
+      --ink: rgba(233,236,255,.94);
+      --muted: rgba(233,236,255,.62);
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      min-height:100vh;
+      background: radial-gradient(1200px 800px at 50% 30%, #101226 0%, var(--bg) 60%, #04050a 100%);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color: var(--ink);
+      overflow:hidden;
+    }
+    canvas{
+      position:fixed; inset:0;
+      width:100vw; height:100vh;
+      display:block;
+    }
+    .hud{
+      position:fixed;
+      left:22px; right:22px; top:18px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+      pointer-events:none;
+    }
+    .titleBlock{ pointer-events:auto; user-select:none; }
+    .title{
+      margin:0;
+      font-size: clamp(22px, 3.2vw, 40px);
+      letter-spacing: -0.02em;
+      font-weight: 650;
+      line-height: 1.05;
+    }
+    .subtitle{
+      margin:8px 0 0 0;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.3;
+    }
+    .btn{
+      pointer-events:auto;
+      appearance:none;
+      border:0;
+      background: rgba(0,0,0,.22);
+      color: var(--ink);
+      padding:10px 12px;
+      border-radius:999px;
+      font-weight:650;
+      font-size:12px;
+      cursor:pointer;
+      backdrop-filter: blur(8px);
+      user-select:none;
+    }
+    .btn:hover{ background: rgba(255,255,255,.06); }
 
-		* {
-			box-sizing: border-box;
-		}
+    .preset{
+      position:fixed;
+      left:22px;
+      bottom:18px;
+      padding:8px 10px;
+      border-radius:999px;
+      background: rgba(0,0,0,.18);
+      color: var(--muted);
+      font-size:12px;
+      line-height:1;
+      backdrop-filter: blur(8px);
+      user-select:none;
+      pointer-events:none;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .swatch{
+      width:10px; height:10px;
+      border-radius:99px;
+      background: #fff;
+      box-shadow: 0 0 10px currentColor;
+      color: inherit;
+    }
 
-		body {
-			margin: 0;
-			min-height: 100vh;
-			background: radial-gradient(1200px 800px at 50% 30%, #101226 0%, var(--bg) 60%, #04050a 100%);
-			font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-			color: var(--ink);
-			overflow: hidden;
-		}
-
-		/* Full-bleed canvas */
-		canvas {
-			position: fixed;
-			inset: 0;
-			width: 100vw;
-			height: 100vh;
-			display: block;
-		}
-
-		/* Minimal HUD */
-		.hud {
-			position: fixed;
-			left: 22px;
-			right: 22px;
-			top: 18px;
-			display: flex;
-			align-items: flex-start;
-			justify-content: space-between;
-			gap: 16px;
-			pointer-events: none;
-			/* lets canvas clicks through */
-		}
-
-		.titleBlock {
-			pointer-events: auto;
-			user-select: none;
-		}
-
-		.title {
-			margin: 0;
-			font-size: clamp(22px, 3.2vw, 40px);
-			letter-spacing: -0.02em;
-			font-weight: 650;
-			line-height: 1.05;
-		}
-
-		.subtitle {
-			margin: 8px 0 0 0;
-			font-size: 12px;
-			color: var(--muted);
-			line-height: 1.3;
-		}
-
-		.btn {
-			pointer-events: auto;
-			appearance: none;
-			border: 0;
-			background: rgba(0, 0, 0, .22);
-			color: var(--ink);
-			padding: 10px 12px;
-			border-radius: 999px;
-			font-weight: 650;
-			font-size: 12px;
-			cursor: pointer;
-			backdrop-filter: blur(8px);
-			user-select: none;
-		}
-
-		.btn:hover {
-			background: rgba(255, 255, 255, .06);
-		}
-
-		.preset {
-			position: fixed;
-			left: 22px;
-			bottom: 18px;
-			padding: 8px 10px;
-			border-radius: 999px;
-			background: rgba(0, 0, 0, .18);
-			color: var(--muted);
-			font-size: 12px;
-			line-height: 1;
-			backdrop-filter: blur(8px);
-			user-select: none;
-			pointer-events: none;
-		}
-
-		@media (max-width: 520px) {
-			.hud {
-				left: 14px;
-				right: 14px;
-				top: 14px;
-			}
-
-			.preset {
-				left: 14px;
-				bottom: 14px;
-			}
-		}
-	</style>
+    @media (max-width: 520px){
+      .hud{ left:14px; right:14px; top:14px; }
+      .preset{ left:14px; bottom:14px; }
+    }
+  </style>
 </head>
-
 <body>
 
-	<canvas id="c"></canvas>
+  <canvas id="c"></canvas>
 
-	<div class="hud">
-		<div class="titleBlock">
-			<h1 class="title">Peristaltic Portals</h1>
-			<p class="subtitle">Tap / click anywhere to switch • Space / → also works</p>
-		</div>
-		<button class="btn" id="nextBtn" type="button">Next</button>
-	</div>
+  <div class="hud">
+    <div class="titleBlock">
+      <h1 class="title">Peristaltic Portals</h1>
+      <p class="subtitle">Tap / click anywhere to switch • Space / → also works</p>
+    </div>
+    <button class="btn" id="nextBtn" type="button">Next</button>
+  </div>
 
-	<div class="preset" id="presetName">03 — Peristaltic Portal</div>
+  <div class="preset" id="presetName">
+    <span class="swatch" id="swatch"></span>
+    <span id="presetText">03 — Peristaltic Portal</span>
+  </div>
 
-	<script>
-		const canvas = document.getElementById("c");
+<script>
+  const canvas = document.getElementById("c");
   const ctx = canvas.getContext("2d");
 
-  const presetNameEl = document.getElementById("presetName");
+  const presetTextEl = document.getElementById("presetText");
+  const swatchEl = document.getElementById("swatch");
   const nextBtn = document.getElementById("nextBtn");
 
   // Shared look/feel (same engine for all presets)
@@ -146,6 +127,11 @@
     RING_W: 1.2,
     STRANDS: 4,
     R_SCALE: 0.23,
+
+    // Neon tuning (keep subtle)
+    GLOW_BLUR: 14,
+    GLOW_W_MULT: 2.2,   // glow stroke thickness multiplier
+    GLOW_ALPHA: 0.22,   // glow intensity
   };
 
   function fitCanvas(){
@@ -163,35 +149,44 @@
   });
 
   function clearTrail(){
+    ctx.shadowBlur = 0;
+    ctx.shadowColor = "transparent";
     ctx.fillStyle = "rgba(7,8,12,1)";
     ctx.fillRect(0,0,size.w,size.h);
   }
 
-  // ==================== Presets (shape-only) ====================
+  // ==================== Presets (shape-only + color) ====================
   const PRESETS = [
-    { name: "01 — Orbit Lens",         portal: portal_orbitLens },
-    { name: "02 — Ribbon Cross",       portal: portal_ribbonCross },
-    { name: "03 — Peristaltic Portal", portal: portal_peristalticPortal },
-    { name: "04 — Capsule",            portal: portal_capsule },
-    { name: "05 — Infinity",           portal: portal_infinity },
-    { name: "06 — Knot 2–3",           portal: portal_knot23 },
-    { name: "07 — Wave-Square",        portal: portal_wavesquare },
-    { name: "08 — Petal-5",            portal: portal_petal5 },
+    { name: "01 — Orbit Lens",         color: "#7CFFB2", portal: portal_orbitLens },
+    { name: "02 — Ribbon Cross",       color: "#7CF0FF", portal: portal_ribbonCross },
+    { name: "03 — Peristaltic Portal", color: "#B79CFF", portal: portal_peristalticPortal },
+    { name: "04 — Capsule",            color: "#FFC46B", portal: portal_capsule },
+    { name: "05 — Infinity",           color: "#FF6BD6", portal: portal_infinity },
+    { name: "06 — Knot 2–3",           color: "#6BFFFA", portal: portal_knot23 },
+    { name: "07 — Wave-Square",        color: "#9DFF6B", portal: portal_wavesquare },
+    { name: "08 — Petal-5",            color: "#FF6B6B", portal: portal_petal5 },
   ];
 
   // Start on #3
   let presetIndex = 2;
-  presetNameEl.textContent = PRESETS[presetIndex].name;
+
+  function applyPresetUI(){
+    const p = PRESETS[presetIndex];
+    presetTextEl.textContent = p.name;
+    swatchEl.style.background = p.color;
+    // neon dot
+    swatchEl.style.boxShadow = `0 0 14px ${p.color}`;
+  }
+  applyPresetUI();
 
   function nextPreset(){
     presetIndex = (presetIndex + 1) % PRESETS.length;
-    presetNameEl.textContent = PRESETS[presetIndex].name;
+    applyPresetUI();
     clearTrail(); // avoid ghosting from previous shape
   }
 
   nextBtn.addEventListener("click", nextPreset);
 
-  // Tap/click anywhere switches (but keep button click working)
   window.addEventListener("pointerdown", (e) => {
     if (e.target === nextBtn) return;
     nextPreset();
@@ -233,6 +228,7 @@
       if(i===0) ctx.moveTo(x,y);
       else ctx.lineTo(x,y);
     }
+
     ctx.globalAlpha = alpha;
     ctx.stroke();
     ctx.globalAlpha = 1;
@@ -264,32 +260,50 @@
         if(i===0) ctx.moveTo(x,y);
         else ctx.lineTo(x,y);
       }
-      ctx.globalAlpha = 0.65;
-      ctx.lineWidth = STYLE.RING_W;
+
       ctx.stroke();
-      ctx.globalAlpha = 1;
     }
   }
 
-  function renderFrame(portalFn, t){
+  function renderFrame(portalFn, color, t){
     const w = size.w, h = size.h;
 
-    // trails
+    // trails (no glow on background fill)
+    ctx.shadowBlur = 0;
+    ctx.shadowColor = "transparent";
     ctx.fillStyle = `rgba(7,8,12,${STYLE.TRAIL})`;
     ctx.fillRect(0,0,w,h);
 
     const cx = w*0.5, cy = h*0.52;
-    const R = Math.min(w,h)*STYLE.R_SCALE;
-
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
-    ctx.strokeStyle = "rgba(233,236,255,0.92)";
-    ctx.lineWidth = STYLE.LINE_W;
+    const R  = Math.min(w,h)*STYLE.R_SCALE;
 
     const baseOff = Math.min(w,h)*0.010;
-    const phases = [0.00, 0.35, 0.70, 1.05, 1.40, 1.75];
+    const phases  = [0.00, 0.35, 0.70, 1.05, 1.40, 1.75];
     const n = Math.max(2, Math.min(6, STYLE.STRANDS));
 
+    // ---- Pass 1: glow (slightly thicker + shadow)
+    ctx.shadowColor = color;
+    ctx.shadowBlur  = STYLE.GLOW_BLUR;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.strokeStyle = color;
+    ctx.lineWidth = STYLE.LINE_W * STYLE.GLOW_W_MULT;
+
+    for(let i=0;i<n;i++){
+      const s = (i - (n-1)/2);
+      const off = s * baseOff;
+      const a = (0.26 + 0.14*(1 - Math.abs(s)/(n*0.6))) * STYLE.GLOW_ALPHA;
+      drawStrand(portalFn, cx, cy, R, t, phases[i], off, a);
+    }
+
+    ctx.lineWidth = STYLE.RING_W * STYLE.GLOW_W_MULT;
+    ctx.globalAlpha = 0.22;
+    drawSlidingRings(portalFn, cx, cy, R, t);
+    ctx.globalAlpha = 1;
+
+    // ---- Pass 2: crisp line (thin, low blur)
+    ctx.shadowBlur = 8;
+    ctx.lineWidth = STYLE.LINE_W;
     for(let i=0;i<n;i++){
       const s = (i - (n-1)/2);
       const off = s * baseOff;
@@ -297,12 +311,17 @@
       drawStrand(portalFn, cx, cy, R, t, phases[i], off, a);
     }
 
-    ctx.strokeStyle = "rgba(233,236,255,0.85)";
+    ctx.lineWidth = STYLE.RING_W;
+    ctx.globalAlpha = 0.65;
     drawSlidingRings(portalFn, cx, cy, R, t);
+    ctx.globalAlpha = 1;
+
+    // reset shadow for safety
+    ctx.shadowBlur = 0;
+    ctx.shadowColor = "transparent";
   }
 
   // ==================== Shapes ====================
-
   function portal_orbitLens(u, tt){
     const wave = 0.16*Math.sin(2*u + tt*1.35) + 0.08*Math.sin(5*u - tt*1.0);
     const r = 1.0 + wave;
@@ -387,13 +406,13 @@
 
   let t = 0;
   function tick(){
-    const portalFn = PRESETS[presetIndex].portal;
-    renderFrame(portalFn, t);
+    const p = PRESETS[presetIndex];
+    renderFrame(p.portal, p.color, t);
     t += 0.016 * STYLE.SPEED;
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
-	</script>
+</script>
 </body>
-
 </html>
+
